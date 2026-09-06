@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-labelledby="title">
+  <title id="title">Letterboxd</title>
+  <defs>
+    <clipPath id="orange"><circle cx="274" cy="510" r="140"/></clipPath>
+    <clipPath id="green"><circle cx="512" cy="510" r="140"/></clipPath>
+  </defs>
+  <path fill="#202830" d="M512 64C221 64 64 160 64 512s157 448 448 448 448-96 448-448S803 64 512 64Z"/>
+  <circle cx="274" cy="510" r="140" fill="#ff8000"/>
+  <circle cx="512" cy="510" r="140" fill="#00e054"/>
+  <circle cx="750" cy="510" r="140" fill="#40bcf4"/>
+  <circle cx="512" cy="510" r="140" fill="#fff" clip-path="url(#orange)"/>
+  <circle cx="750" cy="510" r="140" fill="#fff" clip-path="url(#green)"/>
+</svg>

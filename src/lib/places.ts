@@ -1,0 +1,58 @@
+export const LIVED_PLACES = [
+  {
+    place: "Paysandu",
+    country: "Uruguay",
+    period: "1998–2021 · 2023 · desde 2024",
+    note: "La raíz y el punto de regreso. El ritmo del litoral, la cercanía del río y una identidad construida lejos del ruido de las grandes capitales.",
+  },
+  {
+    place: "Dublin",
+    country: "Irlanda",
+    period: "2021–2023",
+    note: "La primera vida larga en el exterior: otro idioma, otra escala de ciudad y el aprendizaje cotidiano de empezar desde cero.",
+  },
+  {
+    place: "Saint-Gervais-Les-Bains",
+    country: "Francia",
+    period: "2023",
+    note: "Una entrada breve pero decisiva a los Alpes: montaña, pueblos pequeños y una relación nueva con el paisaje.",
+  },
+  {
+    place: "Avoriaz",
+    country: "Francia",
+    period: "2023–2024",
+    note: "Un invierno vivido en altura. La nieve, el snowboard y el tiempo medido por la temporada en lugar del calendario.",
+  },
+  {
+    place: "Nice",
+    country: "Francia",
+    period: "2024",
+    note: "La síntesis mediterránea: mar, historia, arquitectura, caminatas y una forma más luminosa de habitar la ciudad.",
+  },
+] as const;
+
+export const VISITED_PLACES = [
+  { place: "Madrid", country: "España" },
+  { place: "Edinburgh", country: "Escocia" },
+  { place: "Paris", country: "Francia" },
+  { place: "Roma", country: "Italia" },
+  { place: "Palma de Mallorca", country: "España" },
+  { place: "Ibiza", country: "España" },
+  { place: "Barcelona", country: "España" },
+  { place: "London", country: "Inglaterra" },
+  { place: "Alicante", country: "España" },
+  { place: "Valencia", country: "España" },
+  { place: "Toledo", country: "España" },
+  { place: "Buenos Aires", country: "Argentina" },
+  { place: "Annecy", country: "Francia" },
+  { place: "Chamonix", country: "Francia" },
+  { place: "Genève", country: "Suiza" },
+  { place: "Firenze", country: "Italia" },
+  { place: "Monaco", country: "Mónaco" },
+  { place: "Murcia", country: "España" },
+  { place: "Granada", country: "España" },
+  { place: "Altea", country: "España" },
+  { place: "Èze", country: "Francia" },
+  { place: "Villefranche-sur-mer", country: "Francia" },
+  { place: "Saint-Jean-Cap-Ferrat", country: "Francia" },
+] as const;

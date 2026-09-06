@@ -1,0 +1,241 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #000000;
+  --color-blue: #0f172a;
+  --color-paper: #ffffff;
+  --color-canvas: #ffffff;
+  --color-rust: #0f172a;
+  --color-line: #000000;
+
+  --font-heading: var(--font-familjen-grotesk);
+  --font-body: var(--font-familjen-grotesk);
+}
+
+:root {
+  --header-height: 5rem;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  background: #ffffff;
+}
+
+body {
+  margin: 0;
+  background: #ffffff;
+  color: var(--color-ink);
+  font-family: var(--font-body), Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-body), Arial, sans-serif;
+}
+
+a,
+button {
+  -webkit-tap-highlight-color: transparent;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.skip-link {
+  position: fixed;
+  left: 1rem;
+  top: -5rem;
+  z-index: 100;
+  background: var(--color-blue);
+  color: white;
+  padding: 0.75rem 1rem;
+}
+
+.skip-link:focus {
+  top: 1rem;
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--color-blue);
+  outline-offset: 4px;
+}
+
+::selection {
+  background: var(--color-ink);
+  color: var(--color-paper);
+}
+
+.paper-texture {
+  background: #ffffff;
+}
+
+.editorial-kicker {
+  font-family: var(--font-body), Arial, sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.reading-copy p {
+  margin: 0 0 1.5em;
+}
+
+.reading-copy {
+  font-family: var(--font-source-serif), Georgia, serif;
+  font-weight: 400;
+}
+
+.reading-copy p:first-child::first-letter {
+  float: left;
+  margin: 0.06em 0.12em 0 0;
+  color: var(--color-blue);
+  font-family: var(--font-source-serif), Georgia, serif;
+  font-size: 4.4rem;
+  line-height: 0.75;
+}
+
+.font-article {
+  font-family: var(--font-source-serif), Georgia, serif;
+  font-weight: 400;
+}
+
+.font-quote {
+  font-family: var(--font-source-serif), Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+}
+
+.museum-image {
+  filter: saturate(0.86) contrast(1.03);
+}
+
+.editorial-button {
+  display: inline-flex;
+  min-height: 3rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  padding: 0.75rem 1.6rem;
+  font-family: var(--font-body), Arial, sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  line-height: 1;
+  text-transform: uppercase;
+  transition: background-color 180ms ease, color 180ms ease, border-color 180ms ease;
+}
+
+.editorial-button--solid {
+  background: var(--color-blue);
+  color: white;
+}
+
+.editorial-button--solid:hover {
+  background: black;
+}
+
+.editorial-button--outline {
+  border-color: var(--color-blue);
+  color: var(--color-blue);
+}
+
+.editorial-button--outline:hover {
+  background: var(--color-blue);
+  color: white;
+}
+
+.places-carousel {
+  scrollbar-width: none;
+}
+
+.places-carousel::-webkit-scrollbar {
+  display: none;
+}
+
+.photo-marquee-plane {
+  inset: -18% -25%;
+  transform: rotate(-7deg);
+  transform-origin: center;
+}
+
+.photo-marquee-track {
+  --marquee-duration: 96s;
+  animation: photo-marquee-left var(--marquee-duration) linear infinite;
+  will-change: transform;
+}
+
+.photo-marquee-track[data-direction="right"] {
+  animation-name: photo-marquee-right;
+}
+
+.story-title {
+  isolation: isolate;
+  text-shadow: 0 1px 20px rgb(255 255 255 / 0.8);
+}
+
+.story-title::before {
+  position: absolute;
+  z-index: -1;
+  inset: -1.25em -1.7em;
+  border-radius: 999px;
+  background: radial-gradient(ellipse at center, rgb(255 255 255 / 0.68) 0%, rgb(255 255 255 / 0.34) 48%, rgb(255 255 255 / 0) 76%);
+  content: "";
+  filter: blur(28px);
+}
+
+[data-paused="true"] .photo-marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes photo-marquee-left {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(calc(-50% - 0.625rem), 0, 0);
+  }
+}
+
+@keyframes photo-marquee-right {
+  from {
+    transform: translate3d(calc(-50% - 0.625rem), 0, 0);
+  }
+
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+
+  .photo-marquee-track {
+    animation: none !important;
+    will-change: auto;
+  }
+}
