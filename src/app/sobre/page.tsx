@@ -2,12 +2,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { VSCO_IMAGES } from "@/lib/images";
 import { createPageMetadata } from "@/lib/seo";
-import { PERSON_NAME, SITE_DESCRIPTION, SITE_NAME, SITE_URL, SOCIAL_PROFILES } from "@/lib/site";
+import { PERSON_NAME, SITE_NAME, SITE_URL, SOCIAL_PROFILES } from "@/lib/site";
 import { ExpandableGallery } from "@/components/ui/gallery-animation";
 import { CopyEmailButton } from "@/components/ui/CopyEmailButton";
 export const metadata = createPageMetadata({
-  title: "Sobre mí",
-  description: "Conocé a Enzo Thome, autor de El Trovador Errante: lugares vividos, intereses culturales y una forma personal de mirar el mundo.",
+  title: "Mi historia",
+  description: "El Trovador Errante y Enzo Thome, dos caras de la misma moneda, ¿Dónde comienza la historia?",
   path: "/sobre",
 });
 
@@ -15,8 +15,8 @@ const profileStructuredData = {
   "@context": "https://schema.org",
   "@type": "ProfilePage",
   url: `${SITE_URL}/sobre`,
-  name: `Sobre ${PERSON_NAME}`,
-  description: SITE_DESCRIPTION,
+  name: `Mi historia | ${PERSON_NAME}`,
+  description: "El Trovador Errante y Enzo Thome, dos caras de la misma moneda, ¿Dónde comienza la historia?",
   mainEntity: {
     "@type": "Person",
     "@id": `${SITE_URL}/#person`,
@@ -41,8 +41,8 @@ export default function SobrePage() {
           <div>
             <h1 className="mt-5 text-[clamp(5rem,11vw,10rem)] font-bold uppercase leading-[0.8] tracking-[-0.07em] text-blue">Me llamo<br />Enzo</h1>
             <div className="font-article mt-10 max-w-2xl space-y-6 text-xl leading-8 text-black/72">
-              <div>Nací en Paysandú y aprendí a mirar el mundo caminando ciudades. Entre 2021 y 2024 viví en Dublín, en los Alpes franceses y en Niza. Cada lugar cambió mi relación con el tiempo, el paisaje y la idea de hogar.</div>
-              <div>Me interesan la historia, los libros, el cine, los mapas y la arquitectura. Trabajo con tecnología, datos y procesos; este sitio reúne la parte cultural y personal que no entra en una presentación profesional.</div>
+              <div>Nací en un ricón del Uruguay, Paysandú, y aprendí a mirar el mundo primero entre historias y libros, y luego en explorarlo. Entre 2021 y 2024 viví en Dublín, los Alpes franceses y en la Côte d'Azur. Cada lugar cambió mi relación con el tiempo y la idea de hogar.</div>
+              <div>Mi pasión mas profunda es la historia, que la suelo encontrar en libros, películas, mapas y caminando las calles de una ciudad. Si bien mi profesión se relaciona con tecnología, datos y procesos; este lugar usa esas habilidad para expresar mi lado más cultural y personal.</div>
             </div>
           </div>
         </div>
@@ -51,29 +51,29 @@ export default function SobrePage() {
       <section className="px-6 py-20 sm:px-8 md:py-28">
         <div className="mx-auto max-w-[1500px]">
           <h2 className="mb-14 text-5xl font-bold uppercase leading-[0.86] tracking-[-0.06em] text-blue sm:text-7xl">
-            Una forma de mirar
+            Más que mirar, vivir
           </h2>
           <ExpandableGallery
             items={[
               {
                 src: "/assets/2.jpg",
-                title: "Caminar para entender",
-                description: "Mi manera preferida de conocer una ciudad es recorrerla sin apuro, entrar en sus calles laterales y observar cómo la historia convive con la vida cotidiana.",
+                title: "Caminar para pensar",
+                description: "Mi manera preferida de conocer una ciudad es comenzar a caminar hasta perderme, entrando en sus callejones y observar cómo muchas veces la historia de siglos convive con la vida cotidiana.",
               },
               {
                 src: "/assets/4.jpg",
-                title: "Cultura como hilo",
+                title: "Historia y cultura",
                 description: "Los viajes, la literatura, el cine y la historia no aparecen como temas separados. Son distintas maneras de volver sobre una misma pregunta: cómo vivimos y qué dejamos detrás.",
               },
               {
                 src: "/assets/33.jpg",
-                title: "Orden e independencia",
-                description: "Me atraen los sistemas, los mapas y las estructuras porque permiten transformar ideas dispersas en algo legible, útil y duradero.",
+                title: "Todo comienza con un punto de partida",
+                description: "Me atraen los mapas porque permiten trazar no solo la ruta a seguir, sino saber de donde se viene y como se llegó a ese lugar.",
               },
               {
                 src: "/assets/5.jpg",
-                title: "Fotografía con memoria",
-                description: "Prefiero imágenes espontáneas, imperfectas y con textura. No están para exhibir una vida: acompañan el recuerdo de un lugar y el clima de una historia.",
+                title: "La fotografía como ventana para la memoria",
+                description: "No soy partidario del perfeccionismo fotográfico, me gustan más las imágenes espontáneas e imperfectas. Son las que mejor intentan captar la escencia de un momento.",
               },
             ]}
           />
@@ -86,8 +86,8 @@ export default function SobrePage() {
         </div>
         <div className="flex items-center px-6 py-20 sm:px-10 lg:px-[7vw]">
           <div>
-            <h2 className="text-5xl font-bold uppercase leading-[0.86] tracking-[-0.06em] sm:text-7xl">Un archivo<br />público</h2>
-            <div className="font-article mt-8 max-w-xl text-xl leading-8 text-white/72">Esto no es un currículum ni un diario íntimo. Es una selección de escritos, lugares e imágenes que tienen algo para decir fuera de su momento original.</div>
+            <h2 className="text-5xl font-bold uppercase leading-[0.86] tracking-[-0.06em] sm:text-7xl">Un archivo<br />al mundo</h2>
+            <div className="font-article mt-8 max-w-xl text-xl leading-8 text-white/72">Aunque nadie nunca encuntre este lugar y se pierda entre los ceros y unos de la internet, es mi forma de marcar mi paso por este lugar, guardando la esperanza que más que ser encontrado, ser leído.</div>
             <Link href="/viajes" className="mt-9 inline-flex min-h-12 items-center text-xs font-semibold uppercase tracking-[0.13em]">Recorrer los viajes</Link>
           </div>
         </div>

@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
     default: DEFAULT_TITLE,
-    template: `%s | ${PERSON_NAME}`,
+    template: `${PERSON_NAME} | %s`,
   },
   description: SITE_DESCRIPTION,
   applicationName: SITE_NAME,
@@ -44,9 +44,12 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: '/' },
   icons: {
-    icon: [{ url: '/brand/logotransp.png', type: 'image/png' }],
-    shortcut: '/brand/logotransp.png',
-    apple: [{ url: '/brand/logotransp.png', type: 'image/png' }],
+    icon: [
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/icon.png', type: 'image/png', sizes: '32x32' },
+    ],
+    shortcut: '/favicon.ico',
+    apple: [{ url: '/apple-icon.png', type: 'image/png', sizes: '180x180' }],
   },
   manifest: '/manifest.webmanifest',
   openGraph: {

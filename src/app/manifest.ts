@@ -13,8 +13,14 @@ export default function manifest(): MetadataRoute.Manifest {
     lang: "es-UY",
     icons: [
       {
-        src: "/brand/logotransp.png",
-        sizes: "1138x1138",
+        src: "/icon-192.png",
+        sizes: "192x192",
+        type: "image/png",
+        purpose: "any",
+      },
+      {
+        src: "/icon-512.png",
+        sizes: "512x512",
         type: "image/png",
         purpose: "any",
       },

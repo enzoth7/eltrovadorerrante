@@ -29,7 +29,7 @@ export default function Hero() {
               />
             </div>
             <p className="mt-8 max-w-lg text-base leading-7 text-black/70 md:text-lg">
-              El archivo personal de Enzo Thome: lugares, historia, libros y cosas que merecen quedarse un poco más.
+              Este espacio es un diario de viaje, pero no de lugares, sino de la vida. Busca algo tan humano y ambicioso que su simpleza lo hace casi imposible: dejar una huella.
             </p>
           </div>
         </div>

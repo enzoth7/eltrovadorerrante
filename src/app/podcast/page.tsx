@@ -4,7 +4,7 @@ import { createPageMetadata } from "@/lib/seo";
 
 export const metadata = createPageMetadata({
   title: "Podcast",
-  description: "El podcast de Enzo Thome y El Trovador Errante en Spotify: historias, ideas y conversaciones.",
+  description: "Los relatos de El Trovador Errante acerca de sus viajes, sus experiencias y reflexiones",
   path: "/podcast",
   image: "/images/Nice/vsco_080226%20(3).jpg",
 });

@@ -1,13 +1,43 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { getAllPlaces, slugifyPlace } from "@/lib/places";
 import { getGalleryItems } from "@/lib/gallery";
 import { getLocationContent } from "@/lib/location-content";
+import { createPageMetadata } from "@/lib/seo";
+import { PERSON_NAME } from "@/lib/site";
 import MasonryGrid from "@/components/ui/masonry-grid";
 
 interface PaisPageProps {
   params: Promise<{ pais: string }>;
+}
+
+export async function generateMetadata({ params }: PaisPageProps): Promise<Metadata> {
+  const { pais } = await params;
+  const allPlaces = getAllPlaces();
+  const countryPlaces = allPlaces.filter((p) => slugifyPlace(p.country) === pais);
+
+  if (countryPlaces.length === 0) {
+    return { title: "Lugar no encontrado", robots: { index: false, follow: false } };
+  }
+
+  const countryName = countryPlaces[0].country;
+  const locationContent = await getLocationContent(pais);
+  const gallery = getGalleryItems();
+  const countryPlaceNames = countryPlaces.map((p) => slugifyPlace(p.place));
+  const countryPhotos = gallery.filter((img) => countryPlaceNames.includes(slugifyPlace(img.place)));
+  const coverImage = countryPhotos[0]?.src;
+  const description = locationContent?.description
+    ? locationContent.description.replace(/\s+/g, " ").trim().slice(0, 160)
+    : `Explora ${countryName} a través de la fotografía y relatos de viajes de ${PERSON_NAME}.`;
+
+  return createPageMetadata({
+    title: countryName,
+    description,
+    path: `/lugares/${pais}`,
+    ...(coverImage ? { image: coverImage } : {}),
+  });
 }
 
 export default async function PaisPage({ params }: PaisPageProps) {

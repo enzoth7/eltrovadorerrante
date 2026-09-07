@@ -48,7 +48,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
         locale: "es_UY",
         url: `/escritos/${post.slug}`,
         siteName: SITE_NAME,
-        title: post.title,
+        title: `${PERSON_NAME} | ${post.title}`,
         description: post.description,
         publishedTime: `${post.date}T12:00:00Z`,
         authors: [PERSON_NAME],
@@ -57,7 +57,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       },
       twitter: {
         card: "summary_large_image",
-        title: post.title,
+        title: `${PERSON_NAME} | ${post.title}`,
         description: post.description,
         images: [image],
       },

@@ -131,7 +131,7 @@ export default function HomePage() {
             </Link>
           </h2>
           <p className="absolute bottom-12 left-[5vw] max-w-lg text-base leading-7 text-white/90 md:bottom-8">
-            Lugares que dejaron una marca, escenas que todavía vuelven y relatos nacidos de estar lejos de casa.
+            Lugares que dejaron una marca, calles que todavía se caminan y memorías nacidas de la curiosidad y la aventura.
           </p>
         </div>
       </section>

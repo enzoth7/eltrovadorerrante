@@ -1,13 +1,39 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { findPlace, slugifyPlace } from "@/lib/places";
 import { getGalleryItems } from "@/lib/gallery";
 import { GalleryGrid } from "@/components/GalleryGrid";
 import { getLocationContent } from "@/lib/location-content";
+import { createPageMetadata } from "@/lib/seo";
 import ThumbnailCarousel from "@/components/ui/thumbnail-carousel";
 
 interface CiudadPageProps {
   params: Promise<{ pais: string; ciudad: string }>;
+}
+
+export async function generateMetadata({ params }: CiudadPageProps): Promise<Metadata> {
+  const { pais, ciudad } = await params;
+  const place = findPlace(pais, ciudad);
+
+  if (!place) {
+    return { title: "Lugar no encontrado", robots: { index: false, follow: false } };
+  }
+
+  const locationContent = await getLocationContent(pais, ciudad);
+  const gallery = getGalleryItems();
+  const cityPhotos = gallery.filter((img) => slugifyPlace(img.place) === ciudad);
+  const coverImage = cityPhotos[0]?.src;
+  const description = locationContent?.description
+    ? locationContent.description.replace(/\s+/g, " ").trim().slice(0, 160)
+    : `Fotografías y memorias de ${place.place}, ${place.country}.`;
+
+  return createPageMetadata({
+    title: place.place,
+    description,
+    path: `/lugares/${pais}/${ciudad}`,
+    ...(coverImage ? { image: coverImage } : {}),
+  });
 }
 
 export default async function CiudadPage({ params }: CiudadPageProps) {

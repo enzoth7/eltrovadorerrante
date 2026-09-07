@@ -8,7 +8,7 @@ export const SITE_URL = `${rawSiteUrl.startsWith("http") ? rawSiteUrl : `https:/
 
 export const SITE_NAME = "El Trovador Errante";
 export const PERSON_NAME = "Enzo Thome";
-export const DEFAULT_TITLE = `${SITE_NAME} | ${PERSON_NAME}`;
+export const DEFAULT_TITLE = `${PERSON_NAME} | ${SITE_NAME}`;
 export const SITE_DESCRIPTION = "El Trovador Errante es una mirada a la vida y su significado a través de palabras, imágenes y relatos orales. Enzo Thome, uruguayo nativo de Paysandú, es quién comparte sus experiencias y reflexiones. Se encontrarán viajes, historias, libros, películas y música, entre otras cosas.";
 
 export const SOCIAL_PROFILES = [
