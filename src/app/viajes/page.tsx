@@ -54,7 +54,7 @@ export default async function ViajesPage() {
           <div className="font-article mt-16 max-w-2xl text-2xl leading-9 text-black/72 md:text-3xl md:leading-10">Hay ciudades que se visitan y otras que cambian el modo en que uno entiende el tiempo, la distancia y la idea de hogar.</div>
         </div>
         <div className="relative h-full min-h-[62vh] lg:min-h-[calc(100vh-62px)] overflow-hidden bg-blue">
-          <Image src={VSCO_IMAGES.placesCoast} alt="Costa mediterránea de Villefranche-sur-Mer" fill priority sizes="(max-width: 1024px) 100vw, 48vw" className="museum-image object-cover" />
+          <Image src= "/assets/villefranche.jpg" alt="Costa mediterránea de Villefranche-sur-Mer" fill priority sizes="(max-width: 1024px) 100vw, 48vw" className="museum-image object-cover" />
         </div>
       </header>
 

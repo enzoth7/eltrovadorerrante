@@ -82,7 +82,7 @@ export default function SobrePage() {
 
       <section className="grid bg-blue text-white lg:grid-cols-2">
         <div className="relative min-h-[58svh] overflow-hidden">
-          <Image src={VSCO_IMAGES.armillary} alt="Florencia bajo la luz del atardecer" fill sizes="(max-width: 1024px) 100vw, 50vw" className="museum-image object-cover opacity-90" />
+          <Image src= "/assets/florencia.jpg" alt="Florencia bajo la luz del atardecer" fill sizes="(max-width: 1024px) 100vw, 50vw" className="museum-image object-cover opacity-90" />
         </div>
         <div className="flex items-center px-6 py-20 sm:px-10 lg:px-[7vw]">
           <div>
@@ -96,7 +96,7 @@ export default function SobrePage() {
       <section id="contacto" className="grid px-6 py-20 sm:px-8 md:grid-cols-2 md:py-28">
         <h2 className="text-5xl font-bold uppercase tracking-[-0.06em] text-blue sm:text-7xl">Contacto</h2>
         <div className="mt-8 max-w-lg md:mt-0">
-          <div className="font-article text-lg leading-8 text-black/70">Para propuestas, colaboraciones o conversaciones vinculadas al proyecto.</div>
+          <div className="font-article text-lg leading-8 text-black/70">Para conversaciones vinculadas al proyecto.</div>
           <CopyEmailButton email="enzothome1@gmail.com" />
         </div>
       </section>
