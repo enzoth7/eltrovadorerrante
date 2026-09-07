@@ -4,6 +4,7 @@ import "flag-icons/css/flag-icons.min.css";
 import '@/styles/globals.css';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import { Analytics } from "@vercel/analytics/react";
 import { DEFAULT_TITLE, PERSON_NAME, SITE_DESCRIPTION, SITE_NAME, SITE_URL, SOCIAL_PROFILES } from '@/lib/site';
 
 const familjenGrotesk = Familjen_Grotesk({
@@ -130,6 +131,7 @@ export default function RootLayout({
           {children}
         </main>
         <Footer />
+        <Analytics />
       </body>
     </html>
   );

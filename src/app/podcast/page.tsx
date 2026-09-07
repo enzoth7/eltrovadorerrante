@@ -15,11 +15,14 @@ export default function PodcastPage() {
   return (
     <div className="bg-white">
       <section className="grid min-h-[calc(100vh-62px)] w-full bg-blue text-white lg:grid-cols-2">
-        <div className="flex flex-col justify-between px-6 py-16 sm:px-10 md:py-20 lg:px-[7vw]">
-          <h1 className="text-[clamp(4.4rem,12vw,11rem)] font-bold uppercase leading-[0.78] tracking-[-0.075em]">Podcast</h1>
+        <div className="flex flex-col justify-between px-6 py-16 sm:px-8 md:py-20 lg:pl-10 lg:pr-6 xl:pl-12">
+          <h1 className="text-[clamp(4rem,10.5vw,10rem)] font-bold uppercase leading-[0.78] tracking-[-0.075em]">Podcast</h1>
           <div className="mt-20 max-w-2xl">
             <div className="font-article text-2xl leading-9 text-white/78 md:text-3xl md:leading-10">Historias, ideas y conversaciones para escuchar con tiempo. La página abre la puerta; el podcast vive en Spotify.</div>
-            <a href={spotifyUrl} target="_blank" rel="noopener noreferrer" className="mt-9 inline-flex min-h-12 items-center rounded-full bg-white px-7 text-xs font-semibold uppercase tracking-[0.13em] text-blue">Escuchar en Spotify</a>
+            <a href={spotifyUrl} target="_blank" rel="noopener noreferrer" className="mt-9 inline-flex min-h-12 items-center gap-3 bg-white px-6 py-2.5 text-base font-medium normal-case text-blue transition-opacity hover:opacity-90">
+              <Image src="/icons/spotify.svg" alt="" width={24} height={24} aria-hidden="true" />
+              Escuchar
+            </a>
           </div>
         </div>
         <div className="relative min-h-[60vh] w-full overflow-hidden border-t border-white/25 lg:min-h-full lg:border-l lg:border-t-0">
