@@ -15,7 +15,19 @@ export const metadata = createPageMetadata({
 const placeKey = (place: string) =>
   place.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLocaleLowerCase("es");
 
-export default function ViajesPage() {
+import { createClient } from "@/lib/supabase/server";
+
+export default async function ViajesPage() {
+  const supabase = await createClient();
+  const { data: locationData } = await supabase
+    .from("location_content")
+    .select("country_name, description")
+    .is("place_slug", null);
+
+  const countryDescriptions = Object.fromEntries(
+    (locationData || []).map((row) => [row.country_name, row.description])
+  );
+
   const gallery = getGalleryItems();
   const imageByPlace = new Map(gallery.map((image) => [placeKey(image.place), image.src]));
   const uniquePlaces = Array.from(new Set(gallery.map((img) => img.place)));
@@ -36,18 +48,18 @@ export default function ViajesPage() {
 
   return (
     <div className="bg-white">
-      <header className="grid min-h-[calc(100svh-5rem)] lg:grid-cols-[1.05fr_.95fr]">
-        <div className="flex flex-col justify-between px-6 py-16 sm:px-8 md:py-20">
+      <header className="grid min-h-[calc(100vh-62px)] lg:grid-cols-[1.05fr_.95fr]">
+        <div className="flex flex-col justify-between px-6 py-16 sm:px-8 md:py-20 pb-12 lg:pb-20">
           <h1 className="text-[clamp(4.6rem,13vw,12rem)] font-bold uppercase leading-[0.78] tracking-[-0.075em] text-blue">Viajes</h1>
           <div className="font-article mt-16 max-w-2xl text-2xl leading-9 text-black/72 md:text-3xl md:leading-10">Hay ciudades que se visitan y otras que cambian el modo en que uno entiende el tiempo, la distancia y la idea de hogar.</div>
         </div>
-        <div className="relative min-h-[62svh] overflow-hidden bg-blue lg:min-h-full">
+        <div className="relative h-full min-h-[62vh] lg:min-h-[calc(100vh-62px)] overflow-hidden bg-blue">
           <Image src={VSCO_IMAGES.placesCoast} alt="Costa mediterránea de Villefranche-sur-Mer" fill priority sizes="(max-width: 1024px) 100vw, 48vw" className="museum-image object-cover" />
         </div>
       </header>
 
       <section id="mapa-paises" aria-label="Mapa interactivo de viajes" className="w-full mt-24 lg:mt-32">
-        <MapWrapper />
+        <MapWrapper countryDescriptions={countryDescriptions} />
       </section>
 
       <section id="mapa-personal" className="overflow-hidden px-6 py-20 sm:px-8 md:py-28">

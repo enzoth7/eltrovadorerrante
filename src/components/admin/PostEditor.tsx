@@ -13,6 +13,7 @@ export type EditablePost = {
   cover_image?: string | null;
   featured?: boolean;
   status?: 'draft' | 'published';
+  published_at?: string | null;
 };
 
 const categories: { value: Category; label: string }[] = [
@@ -28,6 +29,8 @@ const inputClass = 'mt-2 min-h-12 w-full border border-black bg-white px-4 py-3 
 const labelClass = 'block text-xs font-semibold uppercase tracking-[0.12em] text-black/65';
 
 export default function PostEditor({ post = {}, error }: { post?: EditablePost; error?: string }) {
+  const publicationDate = post.published_at?.slice(0, 10) ?? new Date().toISOString().slice(0, 10);
+
   return (
     <main className="px-6 py-12 sm:px-8 md:py-16">
       <form action={savePostAction} className="mx-auto max-w-7xl">
@@ -64,6 +67,11 @@ export default function PostEditor({ post = {}, error }: { post?: EditablePost; 
               </select>
             </div>
             <div>
+              <label className={labelClass} htmlFor="publicationDate">Fecha de publicación</label>
+              <input className={inputClass} id="publicationDate" name="publicationDate" type="date" defaultValue={publicationDate} required />
+              <p className="mt-2 text-xs leading-relaxed text-black/50">Esta fecha aparecerá en la página del escrito.</p>
+            </div>
+            <div>
               <label className={labelClass} htmlFor="slug">Enlace</label>
               <input className={inputClass} id="slug" name="slug" defaultValue={post.slug} placeholder="Se crea desde el título" />
               <p className="mt-2 text-xs leading-relaxed text-black/50">Sólo palabras y guiones. Conviene no cambiarlo después de publicar.</p>
@@ -75,7 +83,8 @@ export default function PostEditor({ post = {}, error }: { post?: EditablePost; 
             <div>
               <label className={labelClass} htmlFor="coverImage">Imagen de portada</label>
               <input className="mt-3 block w-full text-sm file:mr-4 file:border file:border-blue file:bg-white file:px-4 file:py-3 file:text-xs file:font-bold file:uppercase file:tracking-[0.1em] file:text-blue" id="coverImage" name="coverImage" type="file" accept="image/jpeg,image/png,image/webp,image/gif" />
-              {post.cover_image && <p className="mt-3 break-all text-xs text-black/50">Hay una imagen cargada. Elegí otra sólo si querés reemplazarla.</p>}
+              <p className="mt-3 text-xs leading-relaxed text-black/50">JPG, PNG, WEBP o GIF. Máximo 6 MB.</p>
+              {post.cover_image && <p className="mt-2 text-xs font-semibold text-blue">Este escrito ya tiene una imagen. Elegí otra sólo si querés reemplazarla.</p>}
             </div>
             <label className="flex min-h-12 items-center gap-3 border border-black px-4 text-sm" htmlFor="featured">
               <input id="featured" name="featured" type="checkbox" defaultChecked={post.featured} />
@@ -91,4 +100,3 @@ export default function PostEditor({ post = {}, error }: { post?: EditablePost; 
     </main>
   );
 }
-

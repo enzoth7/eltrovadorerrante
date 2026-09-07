@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import CategoryBadge from "@/components/CategoryBadge";
 import ArticleBody from "@/components/ArticleBody";
 import { getAllPosts, getPostBySlug } from "@/lib/posts";
 import { VSCO_IMAGES } from "@/lib/images";
@@ -96,14 +95,8 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleStructuredData).replace(/</g, "\\u003c") }} />
       <header className="px-6 pb-14 pt-16 text-center md:px-8 md:pb-20 md:pt-24">
         <div className="mx-auto max-w-5xl">
-          <CategoryBadge category={post.category} />
-          <h1 className="mt-7 text-5xl font-bold leading-[0.9] tracking-[-0.055em] text-blue md:text-7xl lg:text-8xl">{post.title}</h1>
+          <h1 className="text-5xl font-bold leading-[0.9] tracking-[-0.055em] text-blue md:text-7xl lg:text-8xl">{post.title}</h1>
           <p className="mx-auto mt-6 max-w-2xl font-heading text-xl italic leading-relaxed text-ink/65 md:text-2xl">{post.description}</p>
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-[0.68rem] font-bold uppercase tracking-[0.13em] text-ink/50">
-            <time dateTime={post.date}>{new Date(`${post.date}T12:00:00`).toLocaleDateString("es-UY", { day: "numeric", month: "long", year: "numeric" })}</time>
-            <span aria-hidden="true">·</span>
-            <span>{Math.max(1, Math.ceil(post.content.split(/\s+/).length / 210))} min de lectura</span>
-          </div>
         </div>
       </header>
 
@@ -117,12 +110,6 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
         <div className="reading-copy font-heading text-xl leading-[1.78] text-ink/82 md:text-[1.42rem]">
           <ArticleBody content={post.content} />
         </div>
-
-        {post.tags.length > 0 && (
-          <div className="mt-14 flex flex-wrap gap-2 border-t border-line pt-7">
-            {post.tags.map((tag) => <span key={tag} className="border-b border-blue px-1 py-1.5 text-[0.65rem] font-bold uppercase tracking-[0.1em] text-blue">#{tag}</span>)}
-          </div>
-        )}
 
         <nav className="mt-16 grid gap-4 border-t border-line pt-10 sm:grid-cols-2" aria-label="Otros escritos">
           {previousPost ? (

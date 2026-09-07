@@ -4,6 +4,8 @@ import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
 import { createClient } from '@/lib/supabase/server';
 import { getAllPosts as getLocalPosts } from '@/lib/mdx';
+import { findCountry, findPlace } from '@/lib/places';
+import { locationContentKey } from '@/lib/location-content';
 import type { Category } from '@/lib/types';
 
 const categories: Category[] = ['viajes', 'libros', 'arte', 'historia', 'peliculas', 'reflexiones'];
@@ -56,13 +58,14 @@ export async function savePostAction(formData: FormData) {
   const description = String(formData.get('description') ?? '').trim();
   const content = String(formData.get('content') ?? '').trim();
   const category = String(formData.get('category') ?? '') as Category;
+  const publicationDate = String(formData.get('publicationDate') ?? '').trim();
   const status = formData.get('publication') === 'published' ? 'published' : 'draft';
   const featured = formData.get('featured') === 'on';
   const tags = String(formData.get('tags') ?? '').split(',').map((tag) => tag.trim().toLowerCase()).filter(Boolean);
   const editorPath = id ? `/admin/escritos/${id}/editar` : '/admin/escritos/nuevo';
 
-  if (!title || !slug || !description || !content || !categories.includes(category)) {
-    redirect(messageUrl(editorPath, 'error', 'Completá título, descripción, tema y texto.'));
+  if (!title || !slug || !description || !content || !categories.includes(category) || !/^\d{4}-\d{2}-\d{2}$/.test(publicationDate)) {
+    redirect(messageUrl(editorPath, 'error', 'Completá título, descripción, tema, fecha y texto.'));
   }
 
   let coverImage = String(formData.get('currentCoverImage') ?? '').trim() || null;
@@ -88,7 +91,7 @@ export async function savePostAction(formData: FormData) {
     cover_image: coverImage,
     featured,
     status,
-    published_at: status === 'published' ? new Date().toISOString() : null,
+    published_at: `${publicationDate}T12:00:00.000Z`,
     created_by: user.id,
   };
 
@@ -141,3 +144,42 @@ export async function importLocalPostsAction() {
   redirect(messageUrl('/admin', 'mensaje', 'Los escritos actuales ya están en el panel.'));
 }
 
+export async function saveLocationContentAction(formData: FormData) {
+  const { supabase, user } = await authenticatedClient();
+  if (!user) redirect('/admin/login');
+
+  const countrySlug = String(formData.get('countrySlug') ?? '').trim();
+  const placeSlug = String(formData.get('placeSlug') ?? '').trim() || null;
+  const description = String(formData.get('description') ?? '').trim();
+  const editorPath = placeSlug
+    ? `/admin/lugares/${countrySlug}/${placeSlug}`
+    : `/admin/lugares/${countrySlug}`;
+
+  const place = placeSlug ? findPlace(countrySlug, placeSlug) : null;
+  const countryName = place?.country ?? findCountry(countrySlug);
+  if (!countryName || (placeSlug && !place)) redirect('/admin/lugares');
+
+  if (description.length > 4000) {
+    redirect(messageUrl(editorPath, 'error', 'La descripción no puede superar los 4000 caracteres.'));
+  }
+
+  const { error } = await supabase.from('location_content').upsert({
+    content_key: locationContentKey(countrySlug, placeSlug),
+    country_slug: countrySlug,
+    place_slug: placeSlug,
+    country_name: countryName,
+    place_name: place?.place ?? null,
+    description,
+    created_by: user.id,
+  }, { onConflict: 'content_key' });
+
+  if (error) {
+    redirect(messageUrl(editorPath, 'error', 'No se pudo guardar la descripción. Verificá que la nueva migración esté aplicada.'));
+  }
+
+  revalidatePath('/admin');
+  revalidatePath('/admin/lugares');
+  revalidatePath(`/lugares/${countrySlug}`);
+  if (placeSlug) revalidatePath(`/lugares/${countrySlug}/${placeSlug}`);
+  redirect(messageUrl(editorPath, 'mensaje', 'Descripción guardada.'));
+}

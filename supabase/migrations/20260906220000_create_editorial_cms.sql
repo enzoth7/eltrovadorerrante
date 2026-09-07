@@ -32,7 +32,6 @@ begin
 end;
 $$;
 
-drop trigger if exists posts_set_updated_at on public.posts;
 create trigger posts_set_updated_at
 before update on public.posts
 for each row execute function public.set_updated_at();
@@ -42,32 +41,27 @@ revoke all on table public.posts from anon, authenticated;
 grant select on table public.posts to anon;
 grant select, insert, update, delete on table public.posts to authenticated;
 
-drop policy if exists "Public can read published posts" on public.posts;
 create policy "Public can read published posts"
 on public.posts for select
 to anon, authenticated
 using (status = 'published' and published_at is not null and published_at <= now());
 
-drop policy if exists "Authors can read their posts" on public.posts;
 create policy "Authors can read their posts"
 on public.posts for select
 to authenticated
 using ((select auth.uid()) = created_by);
 
-drop policy if exists "Authors can create posts" on public.posts;
 create policy "Authors can create posts"
 on public.posts for insert
 to authenticated
 with check ((select auth.uid()) = created_by);
 
-drop policy if exists "Authors can update their posts" on public.posts;
 create policy "Authors can update their posts"
 on public.posts for update
 to authenticated
 using ((select auth.uid()) = created_by)
 with check ((select auth.uid()) = created_by);
 
-drop policy if exists "Authors can delete their posts" on public.posts;
 create policy "Authors can delete their posts"
 on public.posts for delete
 to authenticated
@@ -86,13 +80,11 @@ on conflict (id) do update set
   file_size_limit = excluded.file_size_limit,
   allowed_mime_types = excluded.allowed_mime_types;
 
-drop policy if exists "Public can view post images" on storage.objects;
 create policy "Public can view post images"
 on storage.objects for select
 to public
 using (bucket_id = 'post-images');
 
-drop policy if exists "Authors can upload post images" on storage.objects;
 create policy "Authors can upload post images"
 on storage.objects for insert
 to authenticated
@@ -101,7 +93,6 @@ with check (
   and (storage.foldername(name))[1] = (select auth.uid())::text
 );
 
-drop policy if exists "Authors can update post images" on storage.objects;
 create policy "Authors can update post images"
 on storage.objects for update
 to authenticated
@@ -114,7 +105,6 @@ with check (
   and (storage.foldername(name))[1] = (select auth.uid())::text
 );
 
-drop policy if exists "Authors can delete post images" on storage.objects;
 create policy "Authors can delete post images"
 on storage.objects for delete
 to authenticated
@@ -122,4 +112,3 @@ using (
   bucket_id = 'post-images'
   and (storage.foldername(name))[1] = (select auth.uid())::text
 );
-

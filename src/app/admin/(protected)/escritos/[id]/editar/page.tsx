@@ -8,7 +8,7 @@ export const metadata = { title: 'Editar escrito', robots: { index: false, follo
 export default async function EditPostPage({ params, searchParams }: { params: Promise<{ id: string }>; searchParams: Promise<{ error?: string }> }) {
   const [{ id }, { error }] = await Promise.all([params, searchParams]);
   const supabase = await createClient();
-  const { data } = await supabase.from('posts').select('id, title, slug, description, content, category, tags, cover_image, featured, status').eq('id', id).maybeSingle();
+  const { data } = await supabase.from('posts').select('id, title, slug, description, content, category, tags, cover_image, featured, status, published_at').eq('id', id).maybeSingle();
   if (!data) notFound();
   const post = data as EditablePost;
 

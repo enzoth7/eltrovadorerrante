@@ -1,5 +1,5 @@
 import Link from "next/link";
-import PostCard from "@/components/PostCard";
+import WrittenArchive from "@/components/WrittenArchive";
 import { getAllPosts } from "@/lib/posts";
 import { createPageMetadata } from "@/lib/seo";
 
@@ -23,11 +23,13 @@ export default async function EscritosPage({ searchParams }: { searchParams: Pro
   const { categoria = "", anio = "" } = await searchParams;
   const allPosts = await getAllPosts();
   const years = [...new Set(allPosts.map((post) => post.date.slice(0, 4)))];
-  const posts = allPosts.filter((post) => {
-    const matchesCategory = !categoria || post.category.toLowerCase() === categoria.toLowerCase();
-    const matchesYear = !anio || post.date.startsWith(anio);
-    return matchesCategory && matchesYear;
-  });
+  const posts = allPosts
+    .filter((post) => {
+      const matchesCategory = !categoria || post.category.toLowerCase() === categoria.toLowerCase();
+      const matchesYear = !anio || post.date.startsWith(anio);
+      return matchesCategory && matchesYear;
+    })
+    .sort((a, b) => b.date.localeCompare(a.date));
 
   return (
     <div className="bg-white">
@@ -40,8 +42,8 @@ export default async function EscritosPage({ searchParams }: { searchParams: Pro
         </div>
       </header>
 
-      <section className="px-6 pb-20 sm:px-8 md:pb-28">
-        <div className="mx-auto max-w-[1500px]">
+      <section className="pl-6 pr-0 sm:pl-8 sm:pr-0">
+        <div>
           <div className="grid gap-12 lg:grid-cols-[14rem_1fr]">
             
             {/* SIDEBAR FILTROS */}
@@ -73,9 +75,7 @@ export default async function EscritosPage({ searchParams }: { searchParams: Pro
             {/* LISTA DE POSTS */}
             <div className="min-w-0">
               {posts.length > 0 ? (
-                <div className="columns-1 md:columns-2 gap-8 space-y-12">
-                  {posts.map((post) => <div key={post.slug} className="break-inside-avoid"><PostCard {...post} /></div>)}
-                </div>
+                <WrittenArchive posts={posts.map(({ slug, title, description, date, category, coverImage }) => ({ slug, title, description, date, category, coverImage }))} />
               ) : (
                 <div className="py-20"><h2 className="text-4xl font-bold text-blue">Todavía no hay textos en esta categoría.</h2></div>
               )}

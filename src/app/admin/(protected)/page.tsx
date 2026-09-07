@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
-import { importLocalPostsAction } from '../actions';
 
 type AdminPost = { id: string; slug: string; title: string; status: 'draft' | 'published'; category: string; updated_at: string };
 
@@ -18,8 +17,7 @@ export default async function AdminPage({ searchParams }: { searchParams: Promis
       <div className="mx-auto max-w-7xl">
         <div className="flex flex-wrap items-end justify-between gap-8 border-b border-black pb-10">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-black/55">Archivo privado</p>
-            <h1 className="mt-3 text-5xl font-bold uppercase leading-none tracking-[-0.045em] text-blue md:text-7xl">Tus escritos</h1>
+            <h1 className="text-5xl font-bold uppercase leading-none tracking-[-0.045em] text-blue md:text-7xl">Tus escritos</h1>
           </div>
           <Link className="bg-blue px-7 py-4 text-xs font-bold uppercase tracking-[0.13em] text-white hover:bg-black" href="/admin/escritos/nuevo">Crear escrito</Link>
         </div>
@@ -32,29 +30,37 @@ export default async function AdminPage({ searchParams }: { searchParams: Promis
             <p className="mt-4 font-article text-lg leading-relaxed">El panel ya está construido. Ejecutá la migración incluida en el proyecto desde Supabase y creá tu usuario privado para empezar a publicar.</p>
           </section>
         ) : (
-          <>
-            <div className="mt-10 overflow-x-auto">
-              <table className="w-full min-w-[680px] border-collapse text-left">
-                <thead><tr className="border-b border-black text-xs font-semibold uppercase tracking-[0.12em]"><th className="py-4 pr-6">Título</th><th className="px-6 py-4">Estado</th><th className="px-6 py-4">Tema</th><th className="py-4 pl-6 text-right">Editar</th></tr></thead>
-                <tbody>
-                  {posts.map((post) => (
-                    <tr key={post.id} className="border-b border-black/20">
-                      <td className="py-6 pr-6"><span className="block text-xl font-bold text-blue">{post.title}</span><span className="mt-1 block text-xs text-black/50">Actualizado {new Date(post.updated_at).toLocaleDateString('es-UY')}</span></td>
-                      <td className="px-6 py-6 text-xs font-semibold uppercase tracking-[0.1em]">{post.status === 'published' ? 'Publicado' : 'Borrador'}</td>
-                      <td className="px-6 py-6 text-xs uppercase">{post.category}</td>
-                      <td className="py-6 pl-6 text-right"><Link className="text-xs font-bold uppercase tracking-[0.1em] underline underline-offset-4" href={`/admin/escritos/${post.id}/editar`}>Abrir</Link></td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-              {posts.length === 0 && <p className="py-16 font-article text-xl">Todavía no hay escritos en el panel.</p>}
-            </div>
-            <form action={importLocalPostsAction} className="mt-14 border-t border-black pt-8">
-              <p className="mb-5 max-w-xl text-sm leading-relaxed text-black/65">Podés copiar al panel los tres escritos que hoy viven como archivos en el proyecto. Si ya existen, se actualizan sin duplicarse.</p>
-              <button type="submit" className="border border-blue px-6 py-3 text-xs font-bold uppercase tracking-[0.12em] text-blue hover:bg-blue hover:text-white">Importar escritos actuales</button>
-            </form>
-          </>
+          <div className="mt-10 overflow-x-auto">
+            <table className="w-full min-w-[680px] border-collapse text-left">
+              <thead><tr className="border-b border-black text-xs font-semibold uppercase tracking-[0.12em]"><th className="py-4 pr-6">Título</th><th className="px-6 py-4">Estado</th><th className="px-6 py-4">Tema</th><th className="py-4 pl-6 text-right">Editar</th></tr></thead>
+              <tbody>
+                {posts.map((post) => (
+                  <tr key={post.id} className="border-b border-black/20">
+                    <td className="py-6 pr-6"><span className="block text-xl font-bold text-blue">{post.title}</span><span className="mt-1 block text-xs text-black/50">Actualizado {new Date(post.updated_at).toLocaleDateString('es-UY')}</span></td>
+                    <td className="px-6 py-6 text-xs font-semibold uppercase tracking-[0.1em]">{post.status === 'published' ? 'Publicado' : 'Borrador'}</td>
+                    <td className="px-6 py-6 text-xs uppercase">{post.category}</td>
+                    <td className="py-6 pl-6 text-right"><Link className="text-xs font-bold uppercase tracking-[0.1em] underline underline-offset-4" href={`/admin/escritos/${post.id}/editar`}>Abrir</Link></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            {posts.length === 0 && <p className="py-16 font-article text-xl">Todavía no hay escritos en el panel.</p>}
+          </div>
         )}
+
+        <section className="mt-20 border-t border-black pt-10">
+          <div className="flex flex-wrap items-end justify-between gap-7">
+            <div>
+              <h2 className="text-4xl font-bold leading-none tracking-[-0.035em] text-blue md:text-5xl">Países y lugares</h2>
+              <p className="mt-4 max-w-2xl font-article text-lg leading-relaxed text-black/65">
+                Escribí o corregí la descripción que acompaña cada país y cada ciudad en la web.
+              </p>
+            </div>
+            <Link className="bg-blue px-7 py-4 text-xs font-bold uppercase tracking-[0.13em] text-white hover:bg-black" href="/admin/lugares">
+              Editar lugares
+            </Link>
+          </div>
+        </section>
       </div>
     </main>
   );

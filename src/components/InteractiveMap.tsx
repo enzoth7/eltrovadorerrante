@@ -31,7 +31,7 @@ const visitedCountriesData: Record<string, CountryData> = {
 };
 
 
-export default function InteractiveMap() {
+export default function InteractiveMap({ countryDescriptions = {} }: { countryDescriptions?: Record<string, string> }) {
   const [selectedCountry, setSelectedCountry] = useState<CountryData | null>(null);
 
   const handleFlagClick = (flagCode: string) => {
@@ -40,6 +40,8 @@ export default function InteractiveMap() {
       setSelectedCountry(countryInfo);
     }
   };
+
+  const description = selectedCountry ? countryDescriptions[selectedCountry.name] || selectedCountry.review : null;
 
   return (
     <div className="flex flex-col lg:flex-row w-full min-h-[750px] bg-white">
@@ -68,7 +70,7 @@ export default function InteractiveMap() {
 
 
             <div className="font-article text-lg leading-relaxed text-black/80 mb-12">
-              {selectedCountry.review ? selectedCountry.review : "Próximamente"}
+              {description ? description : "Próximamente"}
             </div>
 
             <div className="mt-auto pt-8 flex items-center justify-between">

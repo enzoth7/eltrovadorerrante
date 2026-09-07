@@ -7,6 +7,6 @@ const InteractiveMap = dynamic(() => import("./InteractiveMap"), {
   loading: () => <div className="h-[700px] w-full bg-[#f8f9fa]" />
 });
 
-export default function MapWrapper() {
-  return <InteractiveMap />;
+export default function MapWrapper({ countryDescriptions = {} }: { countryDescriptions?: Record<string, string> }) {
+  return <InteractiveMap countryDescriptions={countryDescriptions} />;
 }

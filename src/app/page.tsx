@@ -31,10 +31,10 @@ export default function HomePage() {
             </Link>
             <div className="grid min-h-72 grid-cols-2 gap-5 md:min-h-0">
               <Link href="/escritos" className="group relative overflow-hidden bg-blue" aria-label="Leer el archivo cultural">
-                <Image src="/assets/nice-postcards.jpg" alt="Postales mediterráneas" fill sizes="(max-width: 768px) 50vw, 28vw" className="museum-image object-cover transition-transform duration-700 group-hover:scale-[1.015]" />
+                <Image src="/assets/home2.jpg" alt="Postales mediterráneas" fill sizes="(max-width: 768px) 50vw, 28vw" className="museum-image object-cover transition-transform duration-700 group-hover:scale-[1.015]" />
               </Link>
               <Link href="/escritos" className="group relative overflow-hidden bg-blue" aria-label="Ver más escritos">
-                <Image src="/assets/vsco_072726 (2).jpg" alt="Cámaras antiguas en un mercado de Niza" fill sizes="(max-width: 768px) 50vw, 28vw" className="museum-image object-cover transition-transform duration-700 group-hover:scale-[1.015]" />
+                <Image src="/assets/home1.jpg" alt="Cámaras antiguas en un mercado de Niza" fill sizes="(max-width: 768px) 50vw, 28vw" className="museum-image object-cover transition-transform duration-700 group-hover:scale-[1.015]" />
               </Link>
             </div>
           </div>
@@ -47,10 +47,10 @@ export default function HomePage() {
               <Image src="/assets/vsco_073026.jpg" alt="Costa mediterránea desde Villefranche-sur-Mer" fill sizes="574px" className="museum-image object-cover transition-transform duration-700 group-hover:scale-[1.015]" />
             </Link>
             <Link href="/escritos" className="group absolute left-[47.04%] top-[62.2%] h-[37.8%] w-[15.9%] overflow-hidden bg-blue" aria-label="Leer el archivo cultural">
-              <Image src="/assets/nice-postcards.jpg" alt="Postales mediterráneas" fill sizes="172px" className="museum-image object-cover transition-transform duration-700 group-hover:scale-[1.015]" />
+              <Image src="/assets/home2.jpg" alt="Postales mediterráneas" fill sizes="172px" className="museum-image object-cover transition-transform duration-700 group-hover:scale-[1.015]" />
             </Link>
             <Link href="/escritos" className="group absolute left-[65.62%] top-[62.2%] h-[37.8%] w-[14.23%] overflow-hidden bg-blue" aria-label="Ver más escritos">
-              <Image src="/assets/vsco_072726 (2).jpg" alt="Cámaras antiguas en un mercado de Niza" fill sizes="154px" className="museum-image object-cover transition-transform duration-700 group-hover:scale-[1.015]" />
+              <Image src="/assets/home1.jpg" alt="Cámaras antiguas en un mercado de Niza" fill sizes="154px" className="museum-image object-cover transition-transform duration-700 group-hover:scale-[1.015]" />
             </Link>
             <Link
               href="/escritos"
