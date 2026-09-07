@@ -66,7 +66,7 @@ export default function SobrePage() {
                 description: "Los viajes, la literatura, el cine y la historia no aparecen como temas separados. Son distintas maneras de volver sobre una misma pregunta: cómo vivimos y qué dejamos detrás.",
               },
               {
-                src: "/assets/3.jpg",
+                src: "/assets/33.jpg",
                 title: "Orden e independencia",
                 description: "Me atraen los sistemas, los mapas y las estructuras porque permiten transformar ideas dispersas en algo legible, útil y duradero.",
               },
