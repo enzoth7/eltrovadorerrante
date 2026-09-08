@@ -60,7 +60,7 @@ function publicClient() {
   return createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
     auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false },
     global: {
-      fetch: (input, init) => fetch(input, { ...init, next: { revalidate: 60 } }),
+      fetch: (input, init) => fetch(input, { ...init, next: { revalidate: 60, tags: ['posts'] } }),
     },
   });
 }
@@ -86,10 +86,11 @@ async function getRemotePosts(): Promise<Post[]> {
 }
 
 export async function getAllPosts(): Promise<Post[]> {
-  const remotePosts = await getRemotePosts();
-  const remoteSlugs = new Set(remotePosts.map((post) => post.slug));
-  const localPosts = getAllLocalPosts().filter((post) => !remoteSlugs.has(post.slug));
-  return [...remotePosts, ...localPosts].sort((a, b) => b.date.localeCompare(a.date));
+  if (hasSupabaseConfig()) {
+    const remotePosts = await getRemotePosts();
+    return remotePosts.sort((a, b) => b.date.localeCompare(a.date));
+  }
+  return getAllLocalPosts().sort((a, b) => b.date.localeCompare(a.date));
 }
 
 export async function getPostBySlug(slug: string): Promise<Post | null> {
@@ -104,10 +105,12 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
         .maybeSingle();
       if (error) {
         console.error(`Error fetching post by slug "${slug}":`, error);
+        return null;
       }
-      if (data) return toPost(data as PostRow);
+      return data ? toPost(data as PostRow) : null;
     } catch (err) {
       console.error(`Unexpected error fetching post by slug "${slug}":`, err);
+      return null;
     }
   }
 

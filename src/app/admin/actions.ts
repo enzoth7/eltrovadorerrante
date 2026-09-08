@@ -1,7 +1,7 @@
 'use server';
 
 import { redirect } from 'next/navigation';
-import { revalidatePath } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import { createClient } from '@/lib/supabase/server';
 import { getAllPosts as getLocalPosts } from '@/lib/mdx';
 import { findCountry, findPlace } from '@/lib/places';
@@ -132,16 +132,22 @@ export async function savePostAction(formData: FormData) {
   revalidatePath('/escritos');
   revalidatePath(`/escritos/${slug}`);
   revalidatePath('/sitemap.xml');
+  revalidateTag('posts', 'max');
   redirect(messageUrl('/admin', 'mensaje', status === 'published' ? 'Escrito publicado.' : 'Borrador guardado.'));
 }
 
 export async function deletePostAction(id: string, slug: string) {
   const { supabase, user } = await authenticatedClient();
   if (!user) redirect('/admin/login');
-  await supabase.from('posts').delete().eq('id', id).eq('created_by', user.id);
+  const { error } = await supabase.from('posts').delete().eq('id', id).eq('created_by', user.id);
+  if (error) {
+    redirect(messageUrl('/admin', 'error', 'No se pudo eliminar el escrito.'));
+  }
+  revalidatePath('/');
   revalidatePath('/escritos');
   revalidatePath(`/escritos/${slug}`);
   revalidatePath('/sitemap.xml');
+  revalidateTag('posts', 'max');
   redirect(messageUrl('/admin', 'mensaje', 'Escrito eliminado.'));
 }
 
