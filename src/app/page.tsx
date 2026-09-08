@@ -136,7 +136,7 @@ export default async function HomePage() {
           </div>
         </div>
         <div className="relative min-h-[420px] w-full overflow-hidden md:w-[42%] md:min-h-[600px]">
-          <Image src="/assets/descarga.jpg" alt="Mesa de edición de audio y video" fill sizes="(max-width: 768px) 100vw, 42vw" className="museum-image object-cover" />
+          <Image src="/assets/podcast.jpg" alt="Mesa de edición de audio y video" fill sizes="(max-width: 768px) 100vw, 42vw" className="museum-image object-cover" />
         </div>
         <div className="hidden bg-blue md:block md:w-[8%]" aria-hidden="true" />
       </section>

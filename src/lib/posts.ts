@@ -19,8 +19,8 @@ const postImages: Record<string, string> = {
   "paris-y-el-conde-de-montecristo": VSCO_IMAGES.night,
 };
 
-export function resolvePostImage(post: Post): string {
-  return post.coverImage || postImages[post.slug] || categoryImages[post.category?.toLowerCase()] || VSCO_IMAGES.coast;
+export function resolvePostImage(post: { slug?: string; category?: string; coverImage?: string | null }): string {
+  return post.coverImage || (post.slug && postImages[post.slug]) || (post.category && categoryImages[post.category.toLowerCase()]) || VSCO_IMAGES.coast;
 }
 
 type PostRow = {

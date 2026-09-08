@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { VSCO_IMAGES } from "@/lib/images";
+import { resolvePostImage } from "@/lib/posts";
 
 interface PostCardProps {
   title: string;
@@ -12,24 +12,9 @@ interface PostCardProps {
   featured?: boolean;
 }
 
-const categoryImages: Record<string, string> = {
-  viajes: VSCO_IMAGES.coast,
-  libros: VSCO_IMAGES.postcards,
-  arte: VSCO_IMAGES.hercules,
-  historia: VSCO_IMAGES.armillary,
-  reflexiones: VSCO_IMAGES.statue,
-  peliculas: VSCO_IMAGES.night,
-};
-
-const postImages: Record<string, string> = {
-  "por-que-leemos": VSCO_IMAGES.postcards,
-  "perdido-en-roma": VSCO_IMAGES.hercules,
-  "paris-y-el-conde-de-montecristo": VSCO_IMAGES.night,
-};
-
 export default function PostCard({ title, slug, description, date, category, coverImage, featured = false }: PostCardProps) {
   const formattedDate = new Date(`${date}T12:00:00`).toLocaleDateString("es-UY", { day: "numeric", month: "long", year: "numeric" });
-  const image = coverImage || postImages[slug] || categoryImages[category.toLowerCase()] || VSCO_IMAGES.coast;
+  const image = resolvePostImage({ slug, category, coverImage });
 
   return (
     <article className={`group flex flex-col ${featured ? "md:flex-row" : ""}`}>

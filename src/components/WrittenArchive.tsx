@@ -15,23 +15,8 @@ export type ArchivePost = {
   coverImage?: string;
 };
 
-const categoryImages: Record<Category, string> = {
-  viajes: "/images/Villefranche-sur-mer/1.jpg",
-  libros: "/images/Nice/nice-postcards.jpg",
-  arte: "/images/Firenze/firenze-hercules.jpg",
-  historia: "/images/Firenze/firenze-armillary.jpg",
-  reflexiones: "/images/Firenze/firenze-statue.jpg",
-  peliculas: "/images/Nice/nice-night.jpg",
-};
-
-const postImages: Record<string, string> = {
-  "por-que-leemos": "/images/Nice/nice-postcards.jpg",
-  "perdido-en-roma": "/images/Firenze/firenze-hercules.jpg",
-  "paris-y-el-conde-de-montecristo": "/images/Nice/nice-night.jpg",
-};
-
 function postImage(post: ArchivePost) {
-  return post.coverImage || postImages[post.slug] || categoryImages[post.category];
+  return post.coverImage || "/images/Villefranche-sur-mer/vsco_073026 (3).jpg";
 }
 
 function formatDate(date: string) {

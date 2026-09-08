@@ -1,6 +1,6 @@
 import Link from "next/link";
 import WrittenArchive from "@/components/WrittenArchive";
-import { getAllPosts } from "@/lib/posts";
+import { getAllPosts, resolvePostImage } from "@/lib/posts";
 import { createPageMetadata } from "@/lib/seo";
 
 export const metadata = createPageMetadata({
@@ -77,7 +77,16 @@ export default async function EscritosPage({ searchParams }: { searchParams: Pro
             {/* LISTA DE POSTS */}
             <div className="min-w-0">
               {posts.length > 0 ? (
-                <WrittenArchive posts={posts.map(({ slug, title, description, date, category, coverImage }) => ({ slug, title, description, date, category, coverImage }))} />
+                <WrittenArchive
+                  posts={posts.map((post) => ({
+                    slug: post.slug,
+                    title: post.title,
+                    description: post.description,
+                    date: post.date,
+                    category: post.category,
+                    coverImage: resolvePostImage(post),
+                  }))}
+                />
               ) : (
                 <div className="py-20"><h2 className="text-4xl font-bold text-blue">Todavía no hay textos en esta categoría.</h2></div>
               )}
