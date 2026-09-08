@@ -44,7 +44,7 @@ export default async function EscritosPage({ searchParams }: { searchParams: Pro
         </div>
       </header>
 
-      <section className="pl-6 pr-0 sm:pl-8 sm:pr-0">
+      <section className="pl-6 pr-0 pb-16 sm:pl-8 sm:pr-0 sm:pb-20 md:pb-28 lg:pb-36">
         <div>
           <div className="grid gap-12 lg:grid-cols-[14rem_1fr]">
             

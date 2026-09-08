@@ -3,29 +3,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import ArticleBody from "@/components/ArticleBody";
-import { getAllPosts, getPostBySlug } from "@/lib/posts";
-import { VSCO_IMAGES } from "@/lib/images";
+import { getAllPosts, getPostBySlug, resolvePostImage } from "@/lib/posts";
 import { PERSON_NAME, SITE_NAME, SITE_URL } from "@/lib/site";
 import type { Post } from "@/lib/types";
-
-const categoryImages: Record<string, string> = {
-  viajes: VSCO_IMAGES.coast,
-  libros: VSCO_IMAGES.postcards,
-  arte: VSCO_IMAGES.hercules,
-  historia: VSCO_IMAGES.armillary,
-  reflexiones: VSCO_IMAGES.statue,
-  peliculas: VSCO_IMAGES.night,
-};
-
-const postImages: Record<string, string> = {
-  "por-que-leemos": VSCO_IMAGES.postcards,
-  "perdido-en-roma": VSCO_IMAGES.hercules,
-  "paris-y-el-conde-de-montecristo": VSCO_IMAGES.night,
-};
-
-function resolvePostImage(post: Post) {
-  return post.coverImage || postImages[post.slug] || categoryImages[post.category.toLowerCase()] || VSCO_IMAGES.coast;
-}
 
 export const revalidate = 60;
 

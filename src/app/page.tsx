@@ -3,11 +3,53 @@ import Link from "next/link";
 import Hero from "@/components/Hero";
 import PhotoMarquee from "@/components/PhotoMarquee";
 import { getGalleryItems } from "@/lib/gallery";
+import { getAllPosts, resolvePostImage } from "@/lib/posts";
+
+export const revalidate = 60;
 
 const spotifyUrl = "https://open.spotify.com/show/5FZAP7k9Z1w2d5atm4vJfb";
 
-export default function HomePage() {
+const defaultEscritosSlots = [
+  {
+    image: "/assets/vsco_080226 (5).jpg",
+    alt: "Grabados y periódicos antiguos en un mercado de Niza",
+    href: "/escritos",
+    label: "Ver escritos",
+  },
+  {
+    image: "/assets/vsco_073026.jpg",
+    alt: "Costa mediterránea desde Villefranche-sur-Mer",
+    href: "/escritos",
+    label: "Explorar el archivo de escritos",
+  },
+  {
+    image: "/assets/home2.jpg",
+    alt: "Postales mediterráneas",
+    href: "/escritos",
+    label: "Leer el archivo cultural",
+  },
+  {
+    image: "/assets/home1.jpg",
+    alt: "Cámaras antiguas en un mercado de Niza",
+    href: "/escritos",
+    label: "Ver más escritos",
+  },
+];
+
+export default async function HomePage() {
   const photos = getGalleryItems();
+  const allPosts = await getAllPosts();
+
+  const slots = defaultEscritosSlots.map((defaultSlot, index) => {
+    const post = allPosts[index];
+    if (!post) return defaultSlot;
+    return {
+      image: resolvePostImage(post),
+      alt: post.title,
+      href: `/escritos/${post.slug}`,
+      label: post.title,
+    };
+  });
 
   return (
     <>
@@ -23,34 +65,34 @@ export default function HomePage() {
           </div>
 
           <div className="grid gap-5 md:grid-cols-[0.9fr_1.1fr] md:grid-rows-[22rem_13rem] lg:hidden">
-            <Link href="/escritos" className="group relative min-h-[32rem] overflow-hidden bg-blue md:row-span-2 md:min-h-0" aria-label="Ver escritos">
-              <Image src="/assets/vsco_080226 (5).jpg" alt="Grabados y periódicos antiguos en un mercado de Niza" fill sizes="(max-width: 768px) 100vw, 45vw" className="museum-image object-cover transition-transform duration-700 group-hover:scale-[1.015]" />
+            <Link href={slots[0].href} className="group relative min-h-[32rem] overflow-hidden bg-blue md:row-span-2 md:min-h-0" aria-label={slots[0].label}>
+              <Image src={slots[0].image} alt={slots[0].alt} fill sizes="(max-width: 768px) 100vw, 45vw" className="museum-image object-cover transition-transform duration-700 group-hover:scale-[1.015]" />
             </Link>
-            <Link href="/escritos" className="group relative min-h-72 overflow-hidden bg-blue md:min-h-0" aria-label="Explorar el archivo de escritos">
-              <Image src="/assets/vsco_073026.jpg" alt="Costa mediterránea desde Villefranche-sur-Mer" fill sizes="(max-width: 768px) 100vw, 55vw" className="museum-image object-cover transition-transform duration-700 group-hover:scale-[1.015]" />
+            <Link href={slots[1].href} className="group relative min-h-72 overflow-hidden bg-blue md:min-h-0" aria-label={slots[1].label}>
+              <Image src={slots[1].image} alt={slots[1].alt} fill sizes="(max-width: 768px) 100vw, 55vw" className="museum-image object-cover transition-transform duration-700 group-hover:scale-[1.015]" />
             </Link>
             <div className="grid min-h-72 grid-cols-2 gap-5 md:min-h-0">
-              <Link href="/escritos" className="group relative overflow-hidden bg-blue" aria-label="Leer el archivo cultural">
-                <Image src="/assets/home2.jpg" alt="Postales mediterráneas" fill sizes="(max-width: 768px) 50vw, 28vw" className="museum-image object-cover transition-transform duration-700 group-hover:scale-[1.015]" />
+              <Link href={slots[2].href} className="group relative overflow-hidden bg-blue" aria-label={slots[2].label}>
+                <Image src={slots[2].image} alt={slots[2].alt} fill sizes="(max-width: 768px) 50vw, 28vw" className="museum-image object-cover transition-transform duration-700 group-hover:scale-[1.015]" />
               </Link>
-              <Link href="/escritos" className="group relative overflow-hidden bg-blue" aria-label="Ver más escritos">
-                <Image src="/assets/home1.jpg" alt="Cámaras antiguas en un mercado de Niza" fill sizes="(max-width: 768px) 50vw, 28vw" className="museum-image object-cover transition-transform duration-700 group-hover:scale-[1.015]" />
+              <Link href={slots[3].href} className="group relative overflow-hidden bg-blue" aria-label={slots[3].label}>
+                <Image src={slots[3].image} alt={slots[3].alt} fill sizes="(max-width: 768px) 50vw, 28vw" className="museum-image object-cover transition-transform duration-700 group-hover:scale-[1.015]" />
               </Link>
             </div>
           </div>
 
           <div className="relative hidden aspect-[1082/545] lg:block">
-            <Link href="/escritos" className="group absolute inset-y-0 left-0 w-[44.27%] overflow-hidden bg-blue" aria-label="Ver escritos">
-              <Image src="/assets/vsco_080226 (5).jpg" alt="Grabados y periódicos antiguos en un mercado de Niza" fill sizes="479px" className="museum-image object-cover transition-transform duration-700 group-hover:scale-[1.015]" />
+            <Link href={slots[0].href} className="group absolute inset-y-0 left-0 w-[44.27%] overflow-hidden bg-blue" aria-label={slots[0].label}>
+              <Image src={slots[0].image} alt={slots[0].alt} fill sizes="479px" className="museum-image object-cover transition-transform duration-700 group-hover:scale-[1.015]" />
             </Link>
-            <Link href="/escritos" className="group absolute left-[46.95%] top-0 h-[59.27%] w-[53.05%] overflow-hidden bg-blue" aria-label="Explorar el archivo de escritos">
-              <Image src="/assets/vsco_073026.jpg" alt="Costa mediterránea desde Villefranche-sur-Mer" fill sizes="574px" className="museum-image object-cover transition-transform duration-700 group-hover:scale-[1.015]" />
+            <Link href={slots[1].href} className="group absolute left-[46.95%] top-0 h-[59.27%] w-[53.05%] overflow-hidden bg-blue" aria-label={slots[1].label}>
+              <Image src={slots[1].image} alt={slots[1].alt} fill sizes="574px" className="museum-image object-cover transition-transform duration-700 group-hover:scale-[1.015]" />
             </Link>
-            <Link href="/escritos" className="group absolute left-[47.04%] top-[62.2%] h-[37.8%] w-[15.9%] overflow-hidden bg-blue" aria-label="Leer el archivo cultural">
-              <Image src="/assets/home2.jpg" alt="Postales mediterráneas" fill sizes="172px" className="museum-image object-cover transition-transform duration-700 group-hover:scale-[1.015]" />
+            <Link href={slots[2].href} className="group absolute left-[47.04%] top-[62.2%] h-[37.8%] w-[15.9%] overflow-hidden bg-blue" aria-label={slots[2].label}>
+              <Image src={slots[2].image} alt={slots[2].alt} fill sizes="172px" className="museum-image object-cover transition-transform duration-700 group-hover:scale-[1.015]" />
             </Link>
-            <Link href="/escritos" className="group absolute left-[65.62%] top-[62.2%] h-[37.8%] w-[14.23%] overflow-hidden bg-blue" aria-label="Ver más escritos">
-              <Image src="/assets/home1.jpg" alt="Cámaras antiguas en un mercado de Niza" fill sizes="154px" className="museum-image object-cover transition-transform duration-700 group-hover:scale-[1.015]" />
+            <Link href={slots[3].href} className="group absolute left-[65.62%] top-[62.2%] h-[37.8%] w-[14.23%] overflow-hidden bg-blue" aria-label={slots[3].label}>
+              <Image src={slots[3].image} alt={slots[3].alt} fill sizes="154px" className="museum-image object-cover transition-transform duration-700 group-hover:scale-[1.015]" />
             </Link>
             <Link
               href="/escritos"

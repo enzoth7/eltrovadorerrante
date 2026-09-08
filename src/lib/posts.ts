@@ -1,7 +1,27 @@
 import { createClient } from '@supabase/supabase-js';
 import { getAllPosts as getAllLocalPosts, getPostBySlug as getLocalPostBySlug } from './mdx';
 import { hasSupabaseConfig, SUPABASE_PUBLISHABLE_KEY, SUPABASE_URL } from './supabase/config';
+import { VSCO_IMAGES } from './images';
 import type { Category, Post } from './types';
+
+const categoryImages: Record<string, string> = {
+  viajes: VSCO_IMAGES.coast,
+  libros: VSCO_IMAGES.postcards,
+  arte: VSCO_IMAGES.hercules,
+  historia: VSCO_IMAGES.armillary,
+  reflexiones: VSCO_IMAGES.statue,
+  peliculas: VSCO_IMAGES.night,
+};
+
+const postImages: Record<string, string> = {
+  "por-que-leemos": VSCO_IMAGES.postcards,
+  "perdido-en-roma": VSCO_IMAGES.hercules,
+  "paris-y-el-conde-de-montecristo": VSCO_IMAGES.night,
+};
+
+export function resolvePostImage(post: Post): string {
+  return post.coverImage || postImages[post.slug] || categoryImages[post.category?.toLowerCase()] || VSCO_IMAGES.coast;
+}
 
 type PostRow = {
   id: string;
