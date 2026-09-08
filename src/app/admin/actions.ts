@@ -47,6 +47,30 @@ export async function logoutAction() {
   redirect('/admin/login');
 }
 
+function resolvePublishedAt(publicationDate: string, status: 'draft' | 'published'): string {
+  if (status !== 'published') {
+    return `${publicationDate}T00:00:00.000Z`;
+  }
+
+  const now = new Date();
+  const candidateMidnight = new Date(`${publicationDate}T00:00:00.000Z`);
+  const diffHours = (candidateMidnight.getTime() - now.getTime()) / (1000 * 60 * 60);
+
+  // Si la fecha elegida está a más de 24 horas en el futuro, se respeta como programada
+  if (diffHours > 24) {
+    return `${publicationDate}T00:00:00.000Z`;
+  }
+
+  // Si la medianoche UTC ya pasó (caso normal para Uruguay todo el día)
+  if (candidateMidnight <= now) {
+    return `${publicationDate}T00:00:00.000Z`;
+  }
+
+  // Si por diferencia de huso horario queda levemente en el futuro (<= 24h), fijar al momento actual
+  // para que Supabase RLS (published_at <= now()) y la query de Next.js no lo bloqueen
+  return now.toISOString();
+}
+
 export async function savePostAction(formData: FormData) {
   const { supabase, user } = await authenticatedClient();
   if (!user) redirect('/admin/login');
@@ -91,7 +115,7 @@ export async function savePostAction(formData: FormData) {
     cover_image: coverImage,
     featured,
     status,
-    published_at: `${publicationDate}T12:00:00.000Z`,
+    published_at: resolvePublishedAt(publicationDate, status),
     created_by: user.id,
   };
 
@@ -134,7 +158,7 @@ export async function importLocalPostsAction() {
     cover_image: post.coverImage ?? null,
     featured: post.featured ?? false,
     status: 'published',
-    published_at: `${post.date}T12:00:00Z`,
+    published_at: resolvePublishedAt(post.date, 'published'),
     created_by: user.id,
   }));
   const { error } = await supabase.from('posts').upsert(rows, { onConflict: 'slug' });

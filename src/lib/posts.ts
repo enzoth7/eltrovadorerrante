@@ -40,7 +40,7 @@ function publicClient() {
   return createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
     auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false },
     global: {
-      fetch: (input, init) => fetch(input, { ...init, cache: 'no-store' }),
+      fetch: (input, init) => fetch(input, { ...init, next: { revalidate: 60 } }),
     },
   });
 }
@@ -54,9 +54,13 @@ async function getRemotePosts(): Promise<Post[]> {
       .eq('status', 'published')
       .lte('published_at', new Date().toISOString())
       .order('published_at', { ascending: false });
-    if (error) return [];
+    if (error) {
+      console.error('Error fetching Supabase posts:', error);
+      return [];
+    }
     return (data as PostRow[]).map(toPost);
-  } catch {
+  } catch (err) {
+    console.error('Unexpected error fetching Supabase posts:', err);
     return [];
   }
 }
@@ -71,16 +75,19 @@ export async function getAllPosts(): Promise<Post[]> {
 export async function getPostBySlug(slug: string): Promise<Post | null> {
   if (hasSupabaseConfig()) {
     try {
-      const { data } = await publicClient()
+      const { data, error } = await publicClient()
         .from('posts')
         .select('id, slug, title, description, content, category, tags, cover_image, featured, status, published_at, created_at, updated_at')
         .eq('slug', slug)
         .eq('status', 'published')
         .lte('published_at', new Date().toISOString())
         .maybeSingle();
+      if (error) {
+        console.error(`Error fetching post by slug "${slug}":`, error);
+      }
       if (data) return toPost(data as PostRow);
-    } catch {
-      // The local archive remains available while Supabase is being configured.
+    } catch (err) {
+      console.error(`Unexpected error fetching post by slug "${slug}":`, err);
     }
   }
 

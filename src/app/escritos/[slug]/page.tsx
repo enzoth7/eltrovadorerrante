@@ -27,6 +27,8 @@ function resolvePostImage(post: Post) {
   return post.coverImage || postImages[post.slug] || categoryImages[post.category.toLowerCase()] || VSCO_IMAGES.coast;
 }
 
+export const revalidate = 60;
+
 export async function generateStaticParams() {
   return (await getAllPosts()).map((post) => ({ slug: post.slug }));
 }
@@ -100,9 +102,18 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
         </div>
       </header>
 
-      <div className="mx-auto max-w-6xl px-6 md:px-8">
-        <div className="relative aspect-[16/8] overflow-hidden bg-blue">
-          <Image src={image} alt="" fill priority sizes="(max-width: 1200px) 100vw, 1152px" className="museum-image object-cover" />
+      <div className="mx-auto max-w-5xl px-6 md:px-8">
+        <div className="flex justify-center">
+          <Image
+            src={image}
+            alt={post.title}
+            width={0}
+            height={0}
+            sizes="(max-width: 1200px) 100vw, 1024px"
+            priority
+            style={{ width: "auto", height: "auto", maxHeight: "80vh", maxWidth: "100%" }}
+            className="museum-image object-contain"
+          />
         </div>
       </div>
 

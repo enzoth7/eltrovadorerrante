@@ -9,6 +9,8 @@ export const metadata = createPageMetadata({
   path: "/escritos",
   image: "/images/Nice/vsco_080226%20(5).jpg",
 });
+
+export const revalidate = 60;
 const categories = [{ label: "Todos", value: "" }, { label: "Viajes", value: "viajes" }, { label: "Libros", value: "libros" }, { label: "Arte", value: "arte" }, { label: "Historia", value: "historia" }, { label: "Reflexiones", value: "reflexiones" }];
 
 function filterHref(category: string, year: string) {

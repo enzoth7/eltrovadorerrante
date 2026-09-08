@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { revalidatePath } from 'next/cache';
 import { createClient } from '@/lib/supabase/server';
 
 type AdminPost = { id: string; slug: string; title: string; status: 'draft' | 'published'; category: string; updated_at: string };
@@ -8,6 +9,32 @@ export const metadata = { title: 'Mesa editorial', robots: { index: false, follo
 export default async function AdminPage({ searchParams }: { searchParams: Promise<{ mensaje?: string; error?: string }> }) {
   const { mensaje, error: queryError } = await searchParams;
   const supabase = await createClient();
+
+  // Auto-corrección: si hay escritos marcados como 'published' con fecha futura (por el desfase horario anterior),
+  // ajustarlos automáticamente para que queden visibles de inmediato para el público.
+  try {
+    const { data: futurePosts } = await supabase
+      .from('posts')
+      .select('id, slug')
+      .eq('status', 'published')
+      .gt('published_at', new Date().toISOString());
+
+    if (futurePosts && futurePosts.length > 0) {
+      await supabase
+        .from('posts')
+        .update({ published_at: new Date().toISOString() })
+        .in('id', futurePosts.map((p) => p.id));
+
+      revalidatePath('/');
+      revalidatePath('/escritos');
+      for (const post of futurePosts) {
+        revalidatePath(`/escritos/${post.slug}`);
+      }
+    }
+  } catch (healError) {
+    console.error('Error auto-healing future published posts:', healError);
+  }
+
   const { data, error } = await supabase.from('posts').select('id, slug, title, status, category, updated_at').order('updated_at', { ascending: false });
   const posts = (data ?? []) as AdminPost[];
   const databaseReady = !error;
