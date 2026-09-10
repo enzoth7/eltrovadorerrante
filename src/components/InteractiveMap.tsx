@@ -27,7 +27,7 @@ const visitedCountriesData: Record<string, CountryData> = {
   "756": { id: "756", name: "Suiza", flagCode: "ch", image: "/assets/suiza.jpg" },
   "076": { id: "076", name: "Brasil", flagCode: "br", image: "/assets/brasil1.jpg" },
   "492": { id: "492", name: "Mónaco", flagCode: "mc", review: "Un territorio mínimo y vertical, comprimido entre la roca, el Mediterráneo y una arquitectura de otra escala.", image: "/assets/monaco.jpg" },
-  "336": { id: "336", name: "Ciudad del Vaticano", flagCode: "va", image: "/assets/vaticano.jpg" },
+  "336": { id: "336", name: "Vaticano", flagCode: "va", image: "/assets/vaticano.jpg" },
 };
 
 
@@ -142,7 +142,7 @@ export default function InteractiveMap({ countryDescriptions = {} }: { countryDe
         </div>
         {/* Row 3 */}
         <div className="flex gap-1">
-          <button type="button" onClick={() => handleFlagClick("va")} className="fi fi-va text-4xl shadow-sm hover:scale-110 transition-transform cursor-pointer" aria-label="Ciudad del Vaticano" />
+          <button type="button" onClick={() => handleFlagClick("va")} className="fi fi-va text-4xl shadow-sm hover:scale-110 transition-transform cursor-pointer" aria-label="Vaticano" />
           <button type="button" onClick={() => handleFlagClick("ie")} className="fi fi-ie text-4xl shadow-sm hover:scale-110 transition-transform cursor-pointer" aria-label="Irlanda" />
         </div>
         {/* Row 2 */}
