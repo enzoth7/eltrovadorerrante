@@ -9,6 +9,9 @@ const socialNetworks = [
   { name: "TikTok", icon: "/icons/tiktok.svg", href: "https://www.tiktok.com/@eltrovadorerrante7" },
   { name: "Goodreads", icon: "/icons/goodreads-mark.svg", href: "https://www.goodreads.com/user/show/193998839-enzo" },
   { name: "Letterboxd", icon: "/icons/letterboxd-mark.svg", href: "https://letterboxd.com/enzo7h/", preserveColor: true },
+  { name: "Steam", icon: "/icons/steam.svg", href: "https://steamcommunity.com/id/enzo7h/" },
+  { name: "MyAnimeList", icon: "/icons/myanimelist.svg", href: "https://myanimelist.net/profile/enzo7h" },
+  { name: "Serializd", icon: "/icons/serializd.svg", href: "https://serializd.com/user/enzo7h/profile" },
 ] as const;
 
 function SocialIcon({ social }: { social: (typeof socialNetworks)[number] }) {
