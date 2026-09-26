@@ -2,7 +2,7 @@ import Image from "next/image";
 import MapWrapper from "@/components/MapWrapper";
 import PlacesCarousel from "@/components/PlacesCarousel";
 import { getGalleryItems } from "@/lib/gallery";
-import { VSCO_IMAGES } from "@/lib/images";
+import { createMapPlaces } from "@/lib/map-places";
 import { LIVED_PLACES, VISITED_PLACES } from "@/lib/places";
 import { createPageMetadata } from "@/lib/seo";
 
@@ -29,6 +29,7 @@ export default async function ViajesPage() {
   );
 
   const gallery = getGalleryItems();
+  const mapPlaces = createMapPlaces(gallery);
   const imageByPlace = new Map(gallery.map((image) => [placeKey(image.place), image.src]));
   const uniquePlaces = Array.from(new Set(gallery.map((img) => img.place)));
   const places = uniquePlaces.map((placeName) => {
@@ -59,7 +60,7 @@ export default async function ViajesPage() {
       </header>
 
       <section id="mapa-paises" aria-label="Mapa interactivo de viajes" className="w-full mt-24 lg:mt-32">
-        <MapWrapper countryDescriptions={countryDescriptions} />
+        <MapWrapper countryDescriptions={countryDescriptions} places={mapPlaces} />
       </section>
 
       <section id="mapa-personal" className="overflow-hidden px-6 py-20 sm:px-8 md:py-28">

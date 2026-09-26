@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test:map": "node scripts/test-map.cjs",
+    "test:map:browser": "node scripts/test-map-browser.cjs"
   },
   "dependencies": {
     "@supabase/ssr": "0.12.6",
