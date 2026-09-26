@@ -3,7 +3,6 @@
 import * as React from 'react';
 import {
   motion,
-  useInView,
   useMotionValue,
   useTransform,
   useSpring,
@@ -17,7 +16,6 @@ interface MasonryGridProps {
   children: React.ReactNode[];
   className?: string;
   gap?: string;
-  staggerDelay?: number;
 }
 
 // ✨ NEW: A self-contained GridItem component to handle advanced animations
@@ -89,48 +87,17 @@ export const MasonryGrid = ({
   children,
   className = '',
   gap = '1rem',
-  staggerDelay = 0.05,
 }: MasonryGridProps) => {
-  const containerRef = React.useRef(null);
-  const isInView = useInView(containerRef, { once: true, amount: 0.2 });
-
-  const containerVariants = {
-    hidden: {},
-    visible: {
-      transition: {
-        staggerChildren: staggerDelay,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30, scale: 0.95 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: {
-        duration: 0.5,
-        ease: 'easeOut' as const,
-      },
-    },
-  };
-
   return (
     <motion.div
-      ref={containerRef}
       className={`w-full ${className}`}
       style={{ columnGap: gap }}
-      initial="hidden"
-      animate={isInView ? 'visible' : 'hidden'}
-      variants={containerVariants}
       role="list"
     >
       {React.Children.map(children, (child, index) => (
         <motion.div
           key={index}
           className="mb-4 break-inside-avoid"
-          variants={itemVariants}
           role="listitem"
         >
           <GridItem>{child}</GridItem>
