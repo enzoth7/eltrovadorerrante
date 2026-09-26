@@ -38,6 +38,7 @@ Requiere Node 22.12 o posterior para cargar D3 desde el runner CommonJS.
 - `MAP_TEST_URL`: URL de `/viajes`; por defecto `http://localhost:3000/viajes`.
 - `MAP_BROWSER=webkit`: usa WebKit; por defecto usa Chrome instalado.
 - `MAP_SCREENSHOT_DIR`: destino de capturas; por defecto la carpeta temporal.
+- `MAP_TEST_WIDTH`: permite repetir sólo 375, 768 o 1440 px.
 
 La prueba recorre los 60 pines en 375, 768 y 1440 px, carga sus fotografías,
 comprueba tarjetas, teclado, cambios rápidos, regreso al mundo y movimiento

@@ -11,6 +11,7 @@ const output = process.env.MAP_SCREENSHOT_DIR || require('node:os').tmpdir();
   const browser = await engine.launch({ headless: true, ...(engine === chromium ? { channel: 'chrome' } : {}) });
   const errors = [];
   for (const [width, height] of [[375,812],[768,1024],[1440,1000]]) {
+    if (process.env.MAP_TEST_WIDTH && Number(process.env.MAP_TEST_WIDTH) !== width) continue;
     const context = await browser.newContext({ viewport: { width, height }, hasTouch: width < 1000, isMobile: width < 600 });
     const page = await context.newPage();
     page.on('pageerror', e => errors.push(e.message));
@@ -34,8 +35,13 @@ const output = process.env.MAP_SCREENSHOT_DIR || require('node:os').tmpdir();
         await pin.click();
         assert.equal(await page.locator('#map-place-title').textContent(), city);
         await page.locator('#map-place-card img').evaluate(img => img.complete && img.naturalWidth > 0 ? true : new Promise((resolve,reject) => { img.onload = () => resolve(true); img.onerror = () => reject(new Error('Image failed')); }));
-        const box = await canvas.boundingBox(), card = await page.locator('#map-place-card').boundingBox();
-        assert(card && card.x >= box.x - 1 && card.y >= box.y - 1 && card.x + card.width <= box.x + box.width + 1 && card.y + card.height <= box.y + box.height + 1, `${city}: card clipped`);
+        // Measure in the same frame: the page uses smooth scrolling, which can
+        // move the viewport between two separate browser round trips.
+        const {box,card} = await page.evaluate(() => ({
+          box: document.querySelector('.travel-map-canvas').getBoundingClientRect().toJSON(),
+          card: document.querySelector('#map-place-card').getBoundingClientRect().toJSON(),
+        }));
+        assert(card.width > 0 && card.x >= box.x - 1 && card.y >= box.y - 1 && card.x + card.width <= box.x + box.width + 1 && card.y + card.height <= box.y + box.height + 1, `${city}: card clipped ${JSON.stringify({box,card})}`);
         if ((name === 'Francia' && city === 'Nice') || (name === 'Uruguay' && city === 'Punta Ballena')) {
           await canvas.screenshot({path:path.join(output,`travel-map-${process.env.MAP_BROWSER || 'chrome'}-${width}-${name}.png`)});
         }
