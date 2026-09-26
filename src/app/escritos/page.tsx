@@ -1,5 +1,6 @@
 import Link from "next/link";
 import WrittenArchive from "@/components/WrittenArchive";
+import WrittenFilters from "@/components/WrittenFilters";
 import { getAllPosts, resolvePostImage } from "@/lib/posts";
 import { createPageMetadata } from "@/lib/seo";
 
@@ -50,7 +51,8 @@ export default async function EscritosPage({ searchParams }: { searchParams: Pro
             
             {/* SIDEBAR FILTROS */}
             <aside className="pb-8 lg:pr-8">
-              <nav className="mb-10" aria-label="Filtrar escritos por tema">
+              <WrittenFilters key={`${categoria}:${anio}`} categories={categories} years={years} activeCategory={categoria} activeYear={anio} />
+              <nav className="mb-10 hidden lg:block" aria-label="Filtrar escritos por tema">
                 <h3 className="mb-4 text-[0.68rem] font-semibold uppercase tracking-[0.13em] text-black/45">Temas</h3>
                 <ul className="flex flex-col gap-3">
                   {categories.map((category) => {
@@ -63,7 +65,7 @@ export default async function EscritosPage({ searchParams }: { searchParams: Pro
                   })}
                 </ul>
               </nav>
-              <nav aria-label="Filtrar escritos por año">
+              <nav className="hidden lg:block" aria-label="Filtrar escritos por año">
                 <h3 className="mb-4 text-[0.68rem] font-semibold uppercase tracking-[0.13em] text-black/45">Años</h3>
                 <ul className="flex flex-col gap-3">
                   <li><Link href={filterHref(categoria, "")} aria-current={!anio ? "page" : undefined} className={`text-xs font-semibold uppercase tracking-[0.13em] ${!anio ? "text-blue underline underline-offset-4" : "text-black/50 hover:text-black"}`}>Todos</Link></li>
